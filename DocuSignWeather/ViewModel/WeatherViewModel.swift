@@ -28,7 +28,7 @@ class WeatherViewModel: ObservableObject {
     func getDate(_ index: Int) -> String {
         let dateArray = [date, date2, date3, date4, date5, date6]
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd"
+        dateFormatter.dateFormat = "MM/dd, EEEE"
 //        dateFormatter.dateStyle = .medium
 //        dateFormatter.timeStyle = .none
 //        dateFormatter.locale = Locale.current
