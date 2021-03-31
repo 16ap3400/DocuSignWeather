@@ -96,9 +96,9 @@ struct listItem: View {
             Spacer()
             VStack(alignment: .leading) {
                 
-                Text("L: " + String(format: "%.0f", weatherInfo.temp_min ?? 0.0) + "°")
-                    .font(.system(size: 20))
-                Text("H: " + String(format: "%.0f", weatherInfo.temp_max ?? 0.0) + "°")
+//                Text("L: " + String(format: "%.0f", weatherInfo.temp_min ?? 0.0) + "°")
+//                    .font(.system(size: 20))
+                Text(String(format: "%.0f", weatherInfo.temp_max ?? 0.0) + "°")
                     .font(.system(size: 20))
             }
             RemoteImage(url: makeImageURL(conditions.icon ?? "02d"))
