@@ -8,8 +8,9 @@
 import Foundation
 
 struct WeatherResponse: Decodable {
-    let main: Weather
     var dt: Int?
+    let main: Weather
+    let weather: [Conditions]
 }
 
 struct Weather: Decodable {
@@ -18,6 +19,13 @@ struct Weather: Decodable {
     var temp_max: Double?
     var humidity: Double?
     
+}
+
+struct Conditions: Decodable {
+    var id: Int?
+    var main: String?
+    var description: String?
+    var icon: String?
 }
 
 // Forecast JSON: lists forecast for every 3 hours for the next five days

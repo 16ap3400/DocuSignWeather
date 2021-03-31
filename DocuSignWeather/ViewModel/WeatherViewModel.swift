@@ -23,6 +23,13 @@ class WeatherViewModel: ObservableObject {
     @Published var date5 = 0
     @Published var date6 = 0
     
+    @Published var icon = Conditions()
+    @Published var icon2 = Conditions()
+    @Published var icon3 = Conditions()
+    @Published var icon4 = Conditions()
+    @Published var icon5 = Conditions()
+    @Published var icon6 = Conditions()
+    
     
     
     func getDate(_ index: Int) -> String {
@@ -82,6 +89,7 @@ class WeatherViewModel: ObservableObject {
     
     func fetchWeather(city: String) {
         WeatherService().getWeather(city: city) { weatherArray in
+            print(weatherArray)
             
             DispatchQueue.main.async {
                 self.weather = weatherArray[0]! as! Weather
@@ -97,6 +105,14 @@ class WeatherViewModel: ObservableObject {
                 self.date4 = weatherArray[9]! as! Int
                 self.date5 = weatherArray[10]! as! Int
                 self.date6 = weatherArray[11]! as! Int
+                
+                self.icon = weatherArray[12]! as! Conditions
+                self.icon2 = weatherArray[13]! as! Conditions
+                self.icon3 = weatherArray[14]! as! Conditions
+                self.icon4 = weatherArray[15]! as! Conditions
+                self.icon5 = weatherArray[16]! as! Conditions
+                self.icon6 = weatherArray[17]! as! Conditions
+
             }
         }
     }

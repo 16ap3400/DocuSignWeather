@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class WeatherService {
     
@@ -16,6 +17,7 @@ class WeatherService {
         let apiURL = "\(forecastBaseURL)&q=\(city)"
         
         guard let url = URL(string: apiURL) else {
+            print("error in url")
             completion([nil])
 
             return
@@ -26,6 +28,7 @@ class WeatherService {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 DispatchQueue.main.async{
+                    print("error in urlsession")
                     completion([nil])
                 }
                 return
@@ -57,32 +60,48 @@ class WeatherService {
                 let date5 = weatherResponse5.dt
                 let date6 = weatherResponse6.dt
                 
-                let weatherArray = [weather, weather2, weather3, weather4, weather5, weather6, date ?? 0, date2 ?? 0, date3 ?? 0, date4 ?? 0, date5 ?? 0, date6 ?? 0] as [Any]
+                //get icons
+                let icon = weatherResponse.weather[0]
+                let icon2 = weatherResponse2.weather[0]
+                let icon3 = weatherResponse3.weather[0]
+                let icon4 = weatherResponse4.weather[0]
+                let icon5 = weatherResponse5.weather[0]
+                let icon6 = weatherResponse6.weather[0]
+                
+                print("weatherResponse.weather[0] = \(weatherResponse.weather[0])")
+                print("weatherResponse.weather[0].icon! = \(weatherResponse.weather[0].icon!)")
+                
+//                let weatherArray = [weather, weather2, weather3, weather4, weather5, weather6, date ?? 0, date2 ?? 0, date3 ?? 0, date4 ?? 0, date5 ?? 0, date6 ?? 0] as [Any]
+                
+                let weatherArray = [weather, weather2, weather3, weather4, weather5, weather6, date ?? 0, date2 ?? 0, date3 ?? 0, date4 ?? 0, date5 ?? 0, date6 ?? 0, icon, icon2, icon3, icon4, icon5, icon6] as [Any]
                 
                 print("First forecasted item is: \(weather)")
                 
                 completion(weatherArray)
-//                completion(weather)
-//                completion(weather2)
-//                completion(weather3)
-//                completion(weather4)
-//                completion(weather5)
+
             } else {
                 DispatchQueue.main.async {
+                    print("error in forecast list")
                     completion([nil])
                 }
             }
-            // For just current weather base URL
-//            let weatherResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data)
-            
-//            if let weatherResponse = weatherResponse {
-//                let weather = weatherResponse.main
-//                completion(weather)
-//            } else {
-//                DispatchQueue.main.async {
-//                    completion(nil)
-//                }
-//            }
         }.resume()
     }
+}
+
+
+class ImageLoader: ObservableObject {
+    var data = Data()
+    
+    init(iconString: String) {
+        guard let urlStr = URL(string:"http://openweathermap.org/img/w/\(iconString).png") else {return}
+        let task = URLSession.shared.dataTask(with: urlStr) {data, response, error in
+            guard let data = data else {return}
+            DispatchQueue.main.async {
+                self.data = data
+            }
+        }
+        task.resume()
+    }
+    
 }
